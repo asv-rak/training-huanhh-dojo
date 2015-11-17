@@ -1,0 +1,50 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+</head>
+<body>
+{% if greetings %}
+	{% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+	<table>
+		<tr>
+			<th width="20%">User </th>
+			<th width="40%">Content</th>
+			<th width="30%">Date add</th>
+			<th width="10%"></th>
+		</tr>
+		{% for greeting in greetings %}
+			<tr>
+				<td>{% if greeting.author.nickname %}
+					<b>{{ greeting.author }}</b>
+				{% else %}
+					An anonymous person
+				{% endif %}</td>
+				<td>{{ greeting.content|escape }}</td>
+				<td>{{ greeting.date|date:"d-m-Y H:s" }}</td>
+				<td>
+					{% if is_admin  %}
+						<a href="/edit/?guestbook_name={{ guestbook_name }}&id={{ greeting.key.id }}"><button type="button">Edit</button></a>
+						<a href="/delete/?guestbook_name={{ guestbook_name }}&id={{ greeting.key.id }}"><button type="button">Delete</button></a>
+					{% elif user_info == greeting.author  %}
+						<a href="/edit/?guestbook_name={{ guestbook_name }}&id={{ greeting.key.id }}"><button type="button">Edit</button></a>
+					{% endif %}
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+{%  endif %}
+<h2 class="link">Switch Guestbook </h2>
+<form action="" method="get">
+	<div><input type="text" name="guestbook_name" value="{{ guestbook_name }}"/> <input type="submit" value="Switch Guestbookk"></div>
+-</form>
+
+<a class="link" href="/sign?guestbook_name={{ guestbook_name }}">Sign Guestbook</a>
+<a class="link" href="{{ url }}">{{ url_linktext }}</a>
+</body>
+</html>

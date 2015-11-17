@@ -1,0 +1,21 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+</head>
+<body>
+{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+<form action="/sign/" method="post">
+	{{ form.non_field_errors }}
+	{% csrf_token %}
+	{{ form.as_p }}
+	<div><input type="submit" value="Sign Guestbook"><a href="/"> <button type="button">Home</button></a></div>
+</form>
+<a href="{{ form.url }}">{{ form.url_linktext }}</a>
+</body>
+</html>

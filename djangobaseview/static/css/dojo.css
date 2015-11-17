@@ -1,0 +1,53 @@
+.guestbook-content{
+	float: left;
+}
+.guestbook-title{
+	font-size: 20px;
+	float:left
+}
+.guestbook-item{
+	float:left; width: 100%;
+	margin-top: 10px;
+	border-bottom: thin solid black;
+	margin-bottom: 20px; padding-bottom: 20px;
+}
+.guestbook-form{
+	float:left; width: 100%;
+	margin-top: 10px;
+	border-bottom: thin solid black;
+	margin-bottom: 20px; padding-bottom: 20px;
+}
+.guestbook-input{
+	width: 96%;
+	height: 100px;
+	padding: 8px;
+}
+.list-greeting{
+	float:left;
+	width: 100%;
+}
+.greeting-content{
+	border: thin solid black;
+	border-radius: 5px;
+	padding: 10px;
+	line-height: 30px;
+	margin-bottom: 20px;
+	float:left;
+	width: 100%;
+}
+.greeting-item{
+	float:left;
+	width: 100%;
+}
+.greeting-form{
+	float:left; margin-top: 10px;
+	border-top: thin solid black;
+	padding-top: 10px; width: 100%;
+	display: none;
+}
+.greeting-input{
+	width: 96%;
+	height: 100px;
+	padding: 8px;
+}
+

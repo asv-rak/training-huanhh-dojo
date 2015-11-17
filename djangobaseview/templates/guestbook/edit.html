@@ -1,0 +1,15 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+</head>
+<body>
+<h2 class="link">Edit Guestbook </h2>
+<form action="" method="post">
+	{{ form.non_field_errors }}
+	{% csrf_token %}
+	{{ form.as_p }}
+	<div><input type="submit" value="Edit Guestbook"></div>
+</form>
+<a class="link" href="{{ url }}">{{ url_linktext }}</a><a class="link" href="/"> <button type="button">Home</button></a>
+</body>
+</html>

@@ -1,0 +1,77 @@
+body {
+    font-family: verdana, Helvetica, sans-serif;
+    background-color: #ffffff;
+}
+table {
+    border: none;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid black;
+}
+table th{
+    background: #00cccc;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    padding:10px 10px 10px 10px;
+    border-bottom:1px solid rgba(16, 0, 24, 0.55);
+}
+table tr td {
+    padding:10px 10px 10px 10px;
+    border-bottom:1px solid rgba(16, 0, 24, 0.55);
+}
+table tr:nth-child(2n) {
+    background:#f0f3f5;
+}
+.messages{
+    list-style-type: none;
+}
+form {
+    width: 50%;
+}
+form p{
+    width: 100%;
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+form  p > label{
+    width: 100%;
+    float: left;
+}
+form  p > input{
+    float: left;
+}
+.errorlist{
+    float: left;
+    list-style-type: none;
+    color: #ff4500;
+    margin: 0;
+}
+form div{
+    margin-top: 10px;
+    float: left;
+    clear: both;
+}
+.link{
+    clear: both;
+    float: left;
+    margin-top: 20px;
+}
+
+.messages .warning{
+    color: #ffa500;
+}
+.messages .info{
+    color: #00cccc;
+}
+.messages .success{
+    color: #008000;
+}
+.messages .error{
+    color: #ffa500;
+}

@@ -1,0 +1,24 @@
+application: guestbook-huanhh
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+
+- url: /static
+  static_dir: static
+
+- url: /sendmail
+  script: main.application
+  login: required
+
+- url: /.*
+  script: main.application
+
+libraries:
+- name: django
+  version: "latest"
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: 'settings'
