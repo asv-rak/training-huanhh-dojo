@@ -1,22 +1,28 @@
 <div class="${baseClass}">
-    <!--<div class="sign">
-        <div data-dojo-type="dijit/form/Form" id="signForm" jsId="signForm" action="" method="">
+    <div class="sign">
+        <div data-dojo-type="dijit/form/Form" id="signForm" data-dojo-id="signForm" action="" method="">
             <table>
                 <tr>
                     <td>Guestbook name</td>
-                    <td><input type="text" id="guestbook_name" name="guestbook_name" required="true" placeholder="Guestbook name" /></td>
+                    <td><input type="text" id="guestbook_name" name="guestbook_name"
+                               required="true" data-dojo-type="dijit/form/TextBox"/></td>
                 </tr>
                 <tr>
                     <td>Guestbook message</td>
-                    <td><textarea id="guestbook_mesage" name="guestbook_mesage" required="true"></textarea></td>
+                    <td><textarea id="guestbook_mesage" name="guestbook_mesage"
+                                  required="true" data-dojo-type="dijit/form/Textarea"></textarea></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button data-dojo-type="dijit/form/Button" type="submit" name="submitButton" value="Submit"></button></td>
+                    <td>
+                        <button data-dojo-type="dijit/form/Button" type="submit"
+                                name="submitButton" value="Submit"></button>
+                    </td>
                 </tr>
             </table>
         </div>
-    </div>-->
+    </div>
+    <hr/>
     <div class="switchGuest">
         <div data-dojo-type="dijit/form/Form" id="switch" jsId="switch" action="" method="">
             <table>
