@@ -30,6 +30,7 @@
 <script>
     require([
         "dojo/parser",
+                "dojo/domReady!",
         "guestbook/view/GuestBookView"
     ], function (parser) {
         parser.parse();
@@ -37,6 +38,8 @@
 </script>
 
 <div data-dojo-type="guestbook/view/GuestBookView"></div>
+<hr/>
+<div data-dojo-type="guestbook/view/GreetingView"></div>
 <a href="{{ url }}">Login</a>
 
 </body>

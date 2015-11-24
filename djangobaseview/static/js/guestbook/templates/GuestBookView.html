@@ -1,7 +1,39 @@
 <div class="${baseClass}">
-    <select>
-        <option>Guest name</option>
-    </select>
-    <button type="submit">Switch</button><br/>
+    <!--<div class="sign">
+        <div data-dojo-type="dijit/form/Form" id="signForm" jsId="signForm" action="" method="">
+            <table>
+                <tr>
+                    <td>Guestbook name</td>
+                    <td><input type="text" id="guestbook_name" name="guestbook_name" required="true" placeholder="Guestbook name" /></td>
+                </tr>
+                <tr>
+                    <td>Guestbook message</td>
+                    <td><textarea id="guestbook_mesage" name="guestbook_mesage" required="true"></textarea></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button data-dojo-type="dijit/form/Button" type="submit" name="submitButton" value="Submit"></button></td>
+                </tr>
+            </table>
+        </div>
+    </div>-->
+    <div class="switchGuest">
+        <div data-dojo-type="dijit/form/Form" id="switch" jsId="switch" action="" method="">
+            <table>
+                <tr>
+                    <td>Guestbook name</td>
+                    <td><input type="text" id="guestbook_name" name="guestbook_name"
+                               required="true" placeholder="Guestbook name"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button data-dojo-type="dijit/form/Button" type="submit"
+                                name="submitButton" value="Submit"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
     <a href="/sign">Sign greeting</a>
 </div>
