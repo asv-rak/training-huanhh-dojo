@@ -1,16 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Dojo Guestbook</title>
+    <title>Dojo Guestbook</title>
 </head>
 <body>
+<h1 id="greeting">Hello</h1>
+<!-- Configure Dojo -->
+<script>
+    // Instead of using data-dojo-config, we're creating a dojoConfig
+    // object *before* we load dojo.js; they're functionally identical,
+    // it's just easter to read this approach with a larger configuration.
+    var dojoConfig = {
+        async: true,
+        // This code registers the correct location of the "demo"
+        // package so we can load Dojo from the CDN whilst still
+        // being able to load local modules
+        packages: [
+            {
+                name: "guestbook",
+                location: "/static/js/guestbook"
+            }
+        ]
+    };
+</script>
 
-<div>
-	Dojo Guestbook
-	<br>
-	<!-- visit guestbook/views.py:151 for more information -->
-	<a href="{{ url }}">{{ url_linktext }}</a>
-</div>
+<!-- load Dojo -->
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script>
+
+<script>
+    require([
+        "dojo/parser",
+        "guestbook/view/GuestBookView"
+    ], function (parser) {
+        parser.parse();
+    });
+</script>
+
+<div data-dojo-type="guestbook/view/GuestBookView"></div>
+<a href="{{ url }}">Login</a>
 
 </body>
 </html>
