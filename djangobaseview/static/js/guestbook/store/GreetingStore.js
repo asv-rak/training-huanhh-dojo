@@ -36,6 +36,7 @@ define([
                 }
 
                 array.forEach(guestbooks, function (guestbook) {
+                    console.log(guestbook);
                     // Create our widget and place it
                     var widget = new GreetingView(guestbook).placeAt(listContainer);
                 });
