@@ -13,8 +13,6 @@ define([
         content: "",
 
         templateString: template,
-        //	some properties
-        baseClass: "someWidget",
 
         postCreate: function () {
             // do my stuff, then...

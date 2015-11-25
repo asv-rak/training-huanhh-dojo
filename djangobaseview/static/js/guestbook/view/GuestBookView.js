@@ -15,8 +15,6 @@ define([
 ], function (dom, on, request, cookie, declare, array, _ViewBaseMixin, GreetingView, template) {
     return declare("guestbook.view.GuestBookView", [_ViewBaseMixin, GreetingView], {
         templateString: template,
-        //	some properties
-        baseClass: "someWidget",
 
         postCreate: function () {
             // do my stuff, then...
@@ -46,9 +44,12 @@ define([
                         "X-CSRFToken": cookie("csrftoken")
                     }
                 }).then(function (text) {
-                    console.log(text);
                     var guestbooks = JSON.parse(text).greetings;
                     var listContainer = dom.byId("listGuestbookContainer");
+
+                    if(listContainer.childNodes.length > 0){
+                        listContainer.innerHTML = '';
+                    }
 
                     array.forEach(guestbooks, function (guestbook) {
                         // Create our widget and place it
