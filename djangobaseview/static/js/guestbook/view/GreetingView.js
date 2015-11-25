@@ -6,6 +6,7 @@ define([
 
     return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
         templateString: template,
+
         constructor: function(guestbook){
             this.createDate = guestbook.date;
             this.name = guestbook.guestbook_name;
@@ -14,10 +15,7 @@ define([
             this.updatedDate = guestbook.updated_date;
         },
 
-        //createDate: this.createDate,
-
         postCreate: function () {
-            // do my stuff, then...
             this.inherited(arguments);
         }
     });
