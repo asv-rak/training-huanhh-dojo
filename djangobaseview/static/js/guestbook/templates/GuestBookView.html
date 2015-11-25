@@ -1,16 +1,16 @@
 <div class="guestBookView">
     <div class="sign">
-        <div data-dojo-type="dijit/form/Form" id="signForm" data-dojo-id="signForm" action=""
+        <div data-dojo-type="dijit/form/Form" data-dojo-attach-point="signForm" action=""
              method="">
             <table>
                 <tr>
                     <td>Guestbook name</td>
-                    <td><input type="text" id="guestbook_name" name="guestbook_name"
+                    <td><input type="text" data-dojo-attach-point="guestbookNameNode" name="guestbook_name"
                                required="true" data-dojo-type="dijit/form/TextBox"/></td>
                 </tr>
                 <tr>
                     <td>Guestbook message</td>
-                    <td><textarea id="guestbook_mesage" name="guestbook_mesage"
+                    <td><textarea data-dojo-attach-point="guestbookMessageNode" name="guestbook_mesage"
                                   required="true" data-dojo-type="dijit/form/Textarea"></textarea>
                     </td>
                 </tr>

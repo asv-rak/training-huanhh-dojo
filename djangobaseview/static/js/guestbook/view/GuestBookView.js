@@ -20,23 +20,25 @@ define([
             // do my stuff, then...
             this.inherited(arguments);
 
+            var guestbookNameNode = this.guestbookNameNode;
+            var guestbookMessageNode = this.guestbookMessageNode;
+
             // add guestbook api
-            var form = dom.byId('signForm');
-            on(form, "submit", function (e) {
+            on(this.signForm, "submit", function (e) {
                 e.preventDefault();
-                var guestbook_name = dom.byId('guestbook_name').value;
-                var guestbook_mesage = dom.byId('guestbook_mesage').value;
-                var apiUrl = '/api/guestbook/' + guestbook_name + '/greeting/'
+                var guestbookName = guestbookNameNode.value;
+                var guestbookMesage = guestbookMessageNode.value;
+                var apiUrl = '/api/guestbook/' + guestbookName + '/greeting/'
                 request.post(apiUrl, {
                     data: {
-                        guestbook_name: guestbook_name,
-                        guestbook_mesage: guestbook_mesage
+                        guestbook_name: guestbookName,
+                        guestbook_mesage: guestbookMesage
                     },
                     headers: {
                         "X-CSRFToken": cookie("csrftoken")
                     }
                 }).then(function (text) {
-                    console.log("The server returned: ", text);
+
                 });
 
                 request.get(apiUrl, {
@@ -45,7 +47,6 @@ define([
                     }
                 }).then(function (text) {
                     var guestbooks = JSON.parse(text).greetings;
-                    var listContainer = dom.byId("listGuestbookContainer");
 
                     if(listContainer.childNodes.length > 0){
                         listContainer.innerHTML = '';
