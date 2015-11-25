@@ -24,40 +24,43 @@ define([
             var guestbookMessageNode = this.guestbookMessageNode;
 
             // add guestbook api
-            on(this.signForm, "submit", function (e) {
-                e.preventDefault();
-                var guestbookName = guestbookNameNode.value;
-                var guestbookMesage = guestbookMessageNode.value;
-                var apiUrl = '/api/guestbook/' + guestbookName + '/greeting/'
-                request.post(apiUrl, {
-                    data: {
-                        guestbook_name: guestbookName,
-                        guestbook_mesage: guestbookMesage
-                    },
-                    headers: {
-                        "X-CSRFToken": cookie("csrftoken")
-                    }
-                }).then(function (text) {
+            this.own(
+                on(this.signForm, "submit", function (e) {
+                    e.preventDefault();
+                    var guestbookName = guestbookNameNode.value;
+                    var guestbookMesage = guestbookMessageNode.value;
+                    var apiUrl = '/api/guestbook/' + guestbookName + '/greeting/'
+                    request.post(apiUrl, {
+                        data: {
+                            guestbook_name: guestbookName,
+                            guestbook_mesage: guestbookMesage
+                        },
+                        headers: {
+                            "X-CSRFToken": cookie("csrftoken")
+                        }
+                    }).then(function (text) {
 
-                });
-
-                request.get(apiUrl, {
-                    headers: {
-                        "X-CSRFToken": cookie("csrftoken")
-                    }
-                }).then(function (text) {
-                    var guestbooks = JSON.parse(text).greetings;
-
-                    if(listContainer.childNodes.length > 0){
-                        listContainer.innerHTML = '';
-                    }
-
-                    array.forEach(guestbooks, function (guestbook) {
-                        // Create our widget and place it
-                        var widget = new GreetingView(guestbook).placeAt(listContainer);
                     });
-                });
-            });
+
+                    request.get(apiUrl, {
+                        headers: {
+                            "X-CSRFToken": cookie("csrftoken")
+                        }
+                    }).then(function (text) {
+                        var guestbooks = JSON.parse(text).greetings;
+                        var listContainer = dom.byId('listGuestbookContainer');
+
+                        if(listContainer.childNodes.length > 0){
+                            listContainer.innerHTML = '';
+                        }
+
+                        array.forEach(guestbooks, function (guestbook) {
+                            // Create our widget and place it
+                            var widget = new GreetingView(guestbook).placeAt(listContainer);
+                        });
+                    });
+                })
+            );
         }
     });
 
