@@ -15,6 +15,32 @@ define([
             this.updatedDate = guestbook.updated_date;
         },
 
+        createElement: function(label,value){
+            var tr = document.createElement('tr');
+            var tdLabel = document.createElement('td');
+            var tdValue = document.createElement('td');
+
+            tdLabel.innerHTML = label;
+            tr.appendChild(tdLabel);
+            tdValue.innerHTML = value;
+            tr.appendChild(tdValue);
+
+            return tr;
+        },
+
+        createTableElement: function(){
+            var table = document.createElement('table');
+
+            table.setAttribute("style", "border-bottom: solid");
+            table.appendChild(this.createElement('Create date',this.createDate));
+            table.appendChild(this.createElement('Guestbook name', this.name));
+            table.appendChild(this.createElement('Content', this.content));
+            table.appendChild(this.createElement('Update date', this.updatedDate));
+            table.appendChild(this.createElement('Update by', this.updatedBy));
+
+            return table;
+        },
+
         postCreate: function () {
             this.inherited(arguments);
         }

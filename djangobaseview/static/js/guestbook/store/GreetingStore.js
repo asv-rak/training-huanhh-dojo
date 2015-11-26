@@ -1,11 +1,12 @@
 define([
     "dojo/dom",
+    "dojo/dom-construct",
     "dojo/request",
     "dojo/cookie",
     "dojo/_base/declare",
     "dojo/_base/array",
     "../view/GreetingView"
-], function(dom, request, cookie, declare, array, GreetingView){
+], function(dom, domConstruct, request, cookie, declare, array, GreetingView){
     return declare(null,{
         constructor: function(guestbookName, guestbookMessage){
             this.guestbookName = guestbookName;
@@ -35,11 +36,14 @@ define([
                     listContainer.innerHTML = '';
                 }
 
+                var _newDocFrag = document.createDocumentFragment();
                 array.forEach(guestbooks, function (guestbook) {
-                    console.log(guestbook);
-                    // Create our widget and place it
-                    var widget = new GreetingView(guestbook).placeAt(listContainer);
+                    var greetingView = new GreetingView(guestbook);
+                    var element = greetingView.createTableElement();
+
+                    _newDocFrag.appendChild(element);
                 });
+                domConstruct.place(_newDocFrag, listContainer);
             });
         }
     });
