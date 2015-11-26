@@ -1,49 +1,49 @@
 define([
-    "dojo/_base/declare",
-    "./_ViewBaseMixin",
-    "dojo/text!../templates/GreetingView.html"
-], function (declare, _ViewBaseMixin, template) {
+	"dojo/dom",
+	"dojo/on",
+	"dojo/dom-construct",
+	"dojo/_base/declare",
+	"./_ViewBaseMixin",
+	"../store/GreetingStore",
+	"dojo/text!../templates/GreetingView.html"
+], function (dom, on, domConstruct, declare, _ViewBaseMixin, GreetingStore, template) {
 
-    return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
-        templateString: template,
+	return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
+		templateString: template,
 
-        constructor: function(guestbook) {
-            this.createDate = guestbook.date;
-            this.name = guestbook.guestbook_name;
-            this.content = guestbook.content;
-            this.updatedBy = guestbook.updated_by;
-            this.updatedDate = guestbook.updated_date;
-        },
+		constructor: function(guestbook) {
+			this.greetingId = guestbook.greeting_id;
+			this.createDate = guestbook.date;
+			this.name = guestbook.guestbook_name;
+			this.content = guestbook.content;
+			this.updatedBy = guestbook.updated_by;
+			this.updatedDate = guestbook.updated_date;
+		},
 
-        createElement: function(label,value) {
-            var tr = document.createElement('tr');
-            var tdLabel = document.createElement('td');
-            var tdValue = document.createElement('td');
+		_deleteGreeting: function () {
+			var confirm = window.confirm("Do you want delete " + this.name);
+			if(confirm == true) {
+				var store = new GreetingStore(this.name, this.content, this.greetingId);
+				var greetingViewId = this.id;
+				store.deleteGreeting().then(function() {
+					domConstruct.destroy(greetingViewId);
+				});
+			}else {
+				return false;
+			}
+		},
 
-            tdLabel.innerHTML = label;
-            tr.appendChild(tdLabel);
-            tdValue.innerHTML = value;
-            tr.appendChild(tdValue);
+		postCreate: function () {
+			this.inherited(arguments);
 
-            return tr;
-        },
+			var isAdmin = dom.byId('role').value;
+			var username = dom.byId('username').value;
 
-        createTableElement: function() {
-            var table = document.createElement('table');
-
-            table.setAttribute("style", "border-bottom: solid");
-            table.appendChild(this.createElement('Create date',this.createDate));
-            table.appendChild(this.createElement('Guestbook name', this.name));
-            table.appendChild(this.createElement('Content', this.content));
-            table.appendChild(this.createElement('Update date', this.updatedDate));
-            table.appendChild(this.createElement('Update by', this.updatedBy));
-
-            return table;
-        },
-
-        postCreate: function () {
-            this.inherited(arguments);
-        }
-    });
+			if(isAdmin.toLowerCase() !== 'true' && username !== this.updatedBy){
+				this.deleteGreeting.setAttribute('style', 'display: none');
+				this.editGreeting.setAttribute('style', 'display: none');
+			}
+		}
+	});
 
 });

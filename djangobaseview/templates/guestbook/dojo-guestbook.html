@@ -40,7 +40,8 @@
 <hr/>
 <div id="listGuestbookContainer"></div>
 <!--<div data-dojo-type="guestbook/view/GreetingView"></div>-->
-<a href="{{ url }}">Login</a>
-
+<a href="{{ url }}">{{ url_linktext }}</a>
+<input type="hidden" value="{{ is_user_admin }}" id="role"/>
+<input type="hidden" value="{{ user_login }}" id="username"/>
 </body>
 </html>

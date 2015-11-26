@@ -1,24 +1,31 @@
-<div data-dojo-attach-point="greetingView" class="greetingView">
-    <!--<table style="border-bottom: solid">
-        <tr>
-            <td>Create date</td>
-            <td data-dojo-attach-point="dateNode">${createDate}</td>
-        </tr>
-        <tr>
-            <td>Guestbook name</td>
-            <td data-dojo-attach-point="guestbookNameNode">${name}</td>
-        </tr>
-        <tr>
-            <td>Content</td>
-            <td data-dojo-attach-point="contentNode">${content}</td>
-        </tr>
-        <tr>
-            <td>Update date</td>
-            <td data-dojo-attach-point="updatedDateNode">${updatedDate}</td>
-        </tr>
-        <tr>
-            <td>User update</td>
-            <td data-dojo-attach-point="updatedByNode">${updatedBy}</td>
-        </tr>
-    </table>-->
+<div>
+	<table style="border-bottom: solid">
+		<tr>
+			<td>Create date</td>
+			<td>${createDate}</td>
+		</tr>
+		<tr>
+			<td>Guestbook name</td>
+			<td>${name}<td>
+		</tr>
+		<tr>
+			<td>Content</td>
+			<td>${content}</td>
+		</tr>
+		<tr>
+			<td>Updated date</td>
+			<td>${updatedDate}</td>
+		</tr>
+		<tr>
+			<td>Updated by</td>
+			<td>${updatedBy}</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<button data-dojo-attach-event="click: _deleteGreeting" data-dojo-attach-point="deleteGreeting">Delete</button>
+				<button data-dojo-attach-point="editGreeting">Edit</button>
+			</td>
+		</tr>
+	</table>
 </div>

@@ -1,39 +1,59 @@
 define([
-    "dojo/on",
-    "dojo/request",
-    "dojo/cookie",
-    "dojo/_base/declare",
-    "./_ViewBaseMixin",
-    "../store/GreetingStore",
-    "dojo/text!../templates/GuestBookView.html",
-    "dijit/form/Form",
-    "dijit/form/TextBox",
-    "dijit/form/Textarea",
-    "dijit/form/Button"
-], function (on, request, cookie, declare, _ViewBaseMixin, GreetingStore, template) {
-    return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
-        templateString: template,
+	"dojo/dom",
+	"dojo/on",
+	"dojo/dom-construct",
+	"dojo/request",
+	"dojo/cookie",
+	"dojo/_base/declare",
+	"dojo/_base/array",
+	"./_ViewBaseMixin",
+	"../store/GreetingStore",
+	"../view/GreetingView",
+	"dojo/text!../templates/GuestBookView.html",
+	"dijit/form/Form",
+	"dijit/form/TextBox",
+	"dijit/form/Textarea",
+	"dijit/form/Button",
+], function (dom, on, domConstruct, request, cookie, declare, array, _ViewBaseMixin, GreetingStore, GreetingView, template) {
+	return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
+		templateString: template,
 
-        postCreate: function () {
-            this.inherited(arguments);
-            
-            var guestbookNameNode = this.guestbookNameNode;
-            var guestbookMessageNode = this.guestbookMessageNode;
+		postCreate: function () {
+			this.inherited(arguments);
 
-            // add guestbook api
-            this.own(
-                on(this.signForm, "submit", function (e) {
-                    e.preventDefault();
-                    var guestbookName = guestbookNameNode.value;
-                    var guestbookMessage = guestbookMessageNode.value;
-                    var store = new GreetingStore(guestbookName, guestbookMessage);
+			var guestbookNameNode = this.guestbookNameNode;
+			var guestbookMessageNode = this.guestbookMessageNode;
+			var form = this.signForm;
 
-                    store.addGuestbook().then(function(){
-                        store.getGreetings();
-                    });
-                })
-            );
-        }
-    });
+			// add guestbook api
+			this.own(
+				on(form, "submit", function (e) {
+					e.preventDefault();
+					var guestbookName = guestbookNameNode.value;
+					var guestbookMessage = guestbookMessageNode.value;
+					var store = new GreetingStore(guestbookName, guestbookMessage, null);
+
+					store.addGuestbook().then(function() {
+						store.getGreetings().then(function(data) {
+							var list = JSON.parse(data).greetings;
+							var listContainer = dom.byId('listGuestbookContainer');
+
+							if(listContainer.childNodes.length > 0){
+								listContainer.innerHTML = '';
+							}
+
+							var _newDocFrag = document.createDocumentFragment();
+							array.forEach(list, function (guestbook) {
+								var greetingView = new GreetingView(guestbook);
+
+								greetingView.placeAt(_newDocFrag);
+							});
+							domConstruct.place(_newDocFrag, listContainer);
+						});
+					});
+				})
+			);
+		}
+	});
 
 });
