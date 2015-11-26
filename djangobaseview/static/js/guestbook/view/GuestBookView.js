@@ -14,7 +14,7 @@ define([
     return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
         templateString: template,
 
-        greetingStore: function(){
+        greetingStore: function() {
             var guestbookNameNode = this.guestbookNameNode;
             var guestbookMessageNode = this.guestbookMessageNode;
 

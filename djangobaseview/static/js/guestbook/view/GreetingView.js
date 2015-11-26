@@ -7,7 +7,7 @@ define([
     return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
         templateString: template,
 
-        constructor: function(guestbook){
+        constructor: function(guestbook) {
             this.createDate = guestbook.date;
             this.name = guestbook.guestbook_name;
             this.content = guestbook.content;
@@ -15,7 +15,7 @@ define([
             this.updatedDate = guestbook.updated_date;
         },
 
-        createElement: function(label,value){
+        createElement: function(label,value) {
             var tr = document.createElement('tr');
             var tdLabel = document.createElement('td');
             var tdValue = document.createElement('td');
@@ -28,7 +28,7 @@ define([
             return tr;
         },
 
-        createTableElement: function(){
+        createTableElement: function() {
             var table = document.createElement('table');
 
             table.setAttribute("style", "border-bottom: solid");

@@ -6,16 +6,16 @@ define([
     "dojo/_base/declare",
     "dojo/_base/array",
     "../view/GreetingView"
-], function(dom, domConstruct, request, cookie, declare, array, GreetingView){
-    return declare(null,{
-        constructor: function(guestbookName, guestbookMessage){
+], function(dom, domConstruct, request, cookie, declare, array, GreetingView) {
+    return declare(null, {
+        constructor: function(guestbookName, guestbookMessage) {
             this.guestbookName = guestbookName;
             this.guestbookMessage = guestbookMessage;
             this.apiUrl = '/api/guestbook/' + guestbookName + '/greeting/';
             this.headers = {"X-CSRFToken": cookie("csrftoken")};
         },
 
-        addGuestbook: function (){
+        addGuestbook: function () {
             return request.post(this.apiUrl, {
                 data: {
                     guestbook_name: this.guestbookName,
@@ -25,7 +25,7 @@ define([
             });
         },
 
-        getGreetings: function (){
+        getGreetings: function () {
             request.get(this.apiUrl, {
                 headers: this.headers
             }).then(function (text) {
