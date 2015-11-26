@@ -14,7 +14,7 @@ define([
     return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
         templateString: template,
 
-        greetingStore: function() {
+        addAndLoadGreetings: function() {
             var guestbookNameNode = this.guestbookNameNode;
             var guestbookMessageNode = this.guestbookMessageNode;
 
@@ -35,7 +35,7 @@ define([
 
         postCreate: function () {
             this.inherited(arguments);
-            this.greetingStore();
+            this.addAndLoadGreetings();
         }
     });
 
