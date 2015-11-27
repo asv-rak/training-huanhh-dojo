@@ -15,7 +15,8 @@ define([
 	"dijit/form/TextBox",
 	"dijit/form/Textarea",
 	"dijit/form/Button"
-], function (declare, array, dom, on, domConstruct, topic, request, cookie, template, _ViewBaseMixin, GreetingStore, GreetingView) {
+], function (declare, array, dom, on, domConstruct, topic, request, cookie, template,
+             _ViewBaseMixin, GreetingStore, GreetingView) {
 	return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
 		templateString: template,
 
@@ -34,7 +35,6 @@ define([
 					var greetingView = new GreetingView(guestbook);
 
 					domConstruct.place(greetingView.domNode, _newDocFrag);
-					//greetingView.placeAt(_newDocFrag);
 				});
 				domConstruct.place(_newDocFrag, listContainer);
 			});
