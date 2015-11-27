@@ -23,7 +23,7 @@ define([
 
 		_deleteGreeting: function () {
 			var confirm = window.confirm("Do you want delete " + this.name);
-			if(confirm == true) {
+			if (confirm == true) {
 				var store = new GreetingStore(this.guestbookName, this.content, this.greetingId);
 				var greetingViewId = this.id;
 				store.deleteGreeting().then(function() {
@@ -40,7 +40,7 @@ define([
 			var isAdmin = dom.byId('role').value;
 			var username = dom.byId('username').value;
 
-			if(isAdmin.toLowerCase() !== 'true' && username !== this.updatedBy){
+			if (isAdmin.toLowerCase() !== 'true' && username !== this.updatedBy) {
 				domStyle.set(this.deleteGreeting, "display", "none");
 				domStyle.set(this.editGreeting, "display", "none");
 			}
