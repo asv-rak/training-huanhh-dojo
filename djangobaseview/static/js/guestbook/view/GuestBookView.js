@@ -32,6 +32,7 @@ define([
 				array.forEach(list, function (guestbook) {
 					var greetingView = new GreetingView(guestbook);
 
+					greetingView.startup();
 					domConstruct.place(greetingView.domNode, _newDocFrag);
 				});
 				domConstruct.place(_newDocFrag, listContainer);
