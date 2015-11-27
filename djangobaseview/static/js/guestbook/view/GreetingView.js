@@ -1,13 +1,13 @@
 define([
 	"dojo/_base/declare",
+	"dojo/_base/lang",
 	"dojo/dom",
 	"dojo/on",
-	"dojo/dom-construct",
 	"dojo/dom-style",
 	"dojo/text!../templates/GreetingView.html",
 	"./_ViewBaseMixin",
 	"../store/GreetingStore"
-], function (declare, dom, on, domConstruct, domStyle, template, _ViewBaseMixin, GreetingStore) {
+], function (declare, lang, dom, on, domStyle, template, _ViewBaseMixin, GreetingStore) {
 
 	return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
 		templateString: template,
@@ -22,12 +22,14 @@ define([
 		},
 
 		_deleteGreeting: function () {
-			var confirm = window.confirm("Do you want delete " + this.name);
+			var confirm = window.confirm("Do you want delete " + this.guestbookName);
+			var destroyGreeting = lang.hitch(this, this.destroy());
+
 			if (confirm == true) {
 				var store = new GreetingStore(this.guestbookName, this.content, this.greetingId);
-				var greetingViewId = this.id;
+
 				store.deleteGreeting().then(function() {
-					domConstruct.destroy(greetingViewId);
+					destroyGreeting;
 				});
 			}else {
 				return false;
