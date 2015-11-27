@@ -4,10 +4,11 @@ define([
 	"dojo/dom",
 	"dojo/on",
 	"dojo/dom-style",
+	"dojo/topic",
 	"dojo/text!../templates/GreetingView.html",
 	"./_ViewBaseMixin",
 	"../store/GreetingStore"
-], function (declare, lang, dom, on, domStyle, template, _ViewBaseMixin, GreetingStore) {
+], function (declare, lang, dom, on, domStyle, topic, template, _ViewBaseMixin, GreetingStore) {
 
 	return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
 		templateString: template,
@@ -36,6 +37,14 @@ define([
 			}
 		},
 
+		_editGreeting: function () {
+			domStyle.set(this.formEditGreeting, "display", "block");
+		},
+
+		_cancelEdit: function () {
+			domStyle.set(this.formEditGreeting, "display", "none");
+		},
+
 		postCreate: function () {
 			this.inherited(arguments);
 
@@ -46,6 +55,25 @@ define([
 				domStyle.set(this.deleteGreeting, "display", "none");
 				domStyle.set(this.editGreeting, "display", "none");
 			}
+
+			var guestbookNameNode = this.editGuestbookName;
+			var guestbookMessageNode = this.editGuestbookContent;
+			var greetingIdNode = this.editGreetingId;
+
+			this.own(
+				on(this.formEditGreeting, 'submit', function (e) {
+					e.preventDefault();
+					var guestbookName = guestbookNameNode.value;
+					var guestbookMessage = guestbookMessageNode.value;
+					var greetingId = greetingIdNode.value;
+
+					var store = new GreetingStore(guestbookName, guestbookMessage, greetingId);
+
+					store.updateGreeting().then(function () {
+						topic.publish('update/topic', { param: guestbookName });
+					});
+				})
+			)
 		}
 	});
 

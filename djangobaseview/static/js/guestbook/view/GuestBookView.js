@@ -4,6 +4,7 @@ define([
 	"dojo/dom",
 	"dojo/on",
 	"dojo/dom-construct",
+	"dojo/topic",
 	"dojo/request",
 	"dojo/cookie",
 	"dojo/text!../templates/GuestBookView.html",
@@ -14,11 +15,11 @@ define([
 	"dijit/form/TextBox",
 	"dijit/form/Textarea",
 	"dijit/form/Button"
-], function (declare, array, dom, on, domConstruct, request, cookie, template, _ViewBaseMixin, GreetingStore, GreetingView) {
+], function (declare, array, dom, on, domConstruct, topic, request, cookie, template, _ViewBaseMixin, GreetingStore, GreetingView) {
 	return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
 		templateString: template,
 
-		loadGreetings: function(guestbookName) {
+		loadGreetings: function (guestbookName) {
 			var store = new GreetingStore(guestbookName, null, null);
 			store.getGreetings().then(function(data) {
 				var list = JSON.parse(data).greetings;
@@ -32,7 +33,8 @@ define([
 				array.forEach(list, function (guestbook) {
 					var greetingView = new GreetingView(guestbook);
 
-					greetingView.placeAt(_newDocFrag);
+					domConstruct.place(greetingView.domNode, _newDocFrag);
+					//greetingView.placeAt(_newDocFrag);
 				});
 				domConstruct.place(_newDocFrag, listContainer);
 			});
@@ -62,6 +64,11 @@ define([
 					});
 				})
 			);
+
+			var handle = topic.subscribe("update/topic", function(e){
+				guestbookView.loadGreetings(e.param);
+				handle.remove();
+			});
 		}
 	});
 

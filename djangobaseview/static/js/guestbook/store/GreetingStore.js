@@ -32,6 +32,17 @@ define([
 			return request.del(this.apiUrl + this.greetingId, {
 				headers: this.headers
 			});
+		},
+
+		updateGreeting: function () {
+			return request.put(this.apiUrl + this.greetingId, {
+				data: {
+					guestbook_name: this.guestbookName,
+					guestbook_mesage: this.guestbookMessage,
+					greeting_id: this.greetingId
+				},
+				headers: this.headers
+			});
 		}
 	});
 });
