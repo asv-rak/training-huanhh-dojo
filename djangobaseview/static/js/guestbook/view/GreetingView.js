@@ -3,13 +3,15 @@ define([
 	"dojo/_base/lang",
 	"dojo/dom",
 	"dojo/on",
+	"dojo/dom-construct",
 	"dojo/dom-style",
 	"dojo/dom-attr",
 	"dojo/topic",
 	"dojo/text!../templates/GreetingView.html",
 	"./_ViewBaseMixin",
 	"../store/GreetingStore"
-], function (declare, lang, dom, on, domStyle, domAttr, topic, template, _ViewBaseMixin, GreetingStore) {
+], function (declare, lang, dom, on, domConstructor, domStyle, domAttr, topic, template,
+             _ViewBaseMixin, GreetingStore) {
 
 	return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
 		templateString: template,
@@ -28,12 +30,6 @@ define([
 
 			var isAdmin = dom.byId('role').value;
 			var username = dom.byId('username').value;
-
-			if (isAdmin.toLowerCase() !== 'true' && username !== this.updatedBy) {
-				domStyle.set(this.deleteGreeting, "display", "none");
-				domStyle.set(this.editGreeting, "display", "none");
-			}
-
 			var guestbookNameNode = this.editGuestbookName;
 			var guestbookMessageNode = this.editGuestbookContent;
 			var greetingIdNode = this.editGreetingId;
@@ -41,6 +37,12 @@ define([
 			var buttonEdit = this.editGreeting;
 			var formEdit = this.formEditGreeting;
 			var buttonCancelEdit = this.cancelEdit;
+
+			if (isAdmin.toLowerCase() !== 'true' && username !== this.updatedBy) {
+				domConstructor.destroy(buttonDelete);
+				domConstructor.destroy(buttonEdit);
+				domConstructor.destroy(formEdit);
+			}
 
 			this.own(
 				on(this.formEditGreeting, 'submit', function (e) {
