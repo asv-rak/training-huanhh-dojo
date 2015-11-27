@@ -14,7 +14,7 @@ define([
 		constructor: function(guestbook) {
 			this.greetingId = guestbook.greeting_id;
 			this.createDate = guestbook.date;
-			this.name = guestbook.guestbook_name;
+			this.guestbookName = guestbook.guestbook_name;
 			this.content = guestbook.content;
 			this.updatedBy = guestbook.updated_by;
 			this.updatedDate = guestbook.updated_date;
@@ -23,7 +23,7 @@ define([
 		_deleteGreeting: function () {
 			var confirm = window.confirm("Do you want delete " + this.name);
 			if(confirm == true) {
-				var store = new GreetingStore(this.name, this.content, this.greetingId);
+				var store = new GreetingStore(this.guestbookName, this.content, this.greetingId);
 				var greetingViewId = this.id;
 				store.deleteGreeting().then(function() {
 					domConstruct.destroy(greetingViewId);
