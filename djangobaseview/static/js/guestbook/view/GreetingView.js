@@ -28,6 +28,7 @@ define([
 		postCreate: function () {
 			this.inherited(arguments);
 
+			var greetingView = this;
 			var isAdmin = dom.byId('role').value;
 			var username = dom.byId('username').value;
 			var guestbookNameNode = this.editGuestbookName;
@@ -58,7 +59,7 @@ define([
 					});
 				}),
 
-				on(buttonDelete, 'click', function (e) {
+				on(buttonDelete, 'click', function () {
 					var greetingId = domAttr.get(buttonDelete, "data-value");
 					var guestbookName = domAttr.get(buttonDelete, "data-name");
 
@@ -68,9 +69,7 @@ define([
 						var store = new GreetingStore(guestbookName, null, greetingId);
 
 						store.deleteGreeting().then(function() {
-							lang.hitch(this, function () {
-								this.destroy();
-							});
+							lang.hitch(greetingView, greetingView.destroy());
 						});
 					}else {
 						return false;
