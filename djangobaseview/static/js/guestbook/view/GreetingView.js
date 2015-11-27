@@ -4,11 +4,12 @@ define([
 	"dojo/dom",
 	"dojo/on",
 	"dojo/dom-style",
+	"dojo/dom-attr",
 	"dojo/topic",
 	"dojo/text!../templates/GreetingView.html",
 	"./_ViewBaseMixin",
 	"../store/GreetingStore"
-], function (declare, lang, dom, on, domStyle, topic, template, _ViewBaseMixin, GreetingStore) {
+], function (declare, lang, dom, on, domStyle, domAttr, topic, template, _ViewBaseMixin, GreetingStore) {
 
 	return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
 		templateString: template,
@@ -20,29 +21,6 @@ define([
 			this.content = guestbook.content;
 			this.updatedBy = guestbook.updated_by;
 			this.updatedDate = guestbook.updated_date;
-		},
-
-		_deleteGreeting: function () {
-			var confirm = window.confirm("Do you want delete " + this.guestbookName);
-			var destroyGreeting = lang.hitch(this, this.destroy());
-
-			if (confirm == true) {
-				var store = new GreetingStore(this.guestbookName, this.content, this.greetingId);
-
-				store.deleteGreeting().then(function() {
-					destroyGreeting;
-				});
-			}else {
-				return false;
-			}
-		},
-
-		_editGreeting: function () {
-			domStyle.set(this.formEditGreeting, "display", "block");
-		},
-
-		_cancelEdit: function () {
-			domStyle.set(this.formEditGreeting, "display", "none");
 		},
 
 		postCreate: function () {
@@ -59,6 +37,10 @@ define([
 			var guestbookNameNode = this.editGuestbookName;
 			var guestbookMessageNode = this.editGuestbookContent;
 			var greetingIdNode = this.editGreetingId;
+			var buttonDelete = this.deleteGreeting;
+			var buttonEdit = this.editGreeting;
+			var formEdit = this.formEditGreeting;
+			var buttonCancelEdit = this.cancelEdit;
 
 			this.own(
 				on(this.formEditGreeting, 'submit', function (e) {
@@ -72,6 +54,33 @@ define([
 					store.updateGreeting().then(function () {
 						topic.publish('update/topic', { param: guestbookName });
 					});
+				}),
+
+				on(buttonDelete, 'click', function (e) {
+					var greetingId = domAttr.get(buttonDelete, "data-value");
+					var guestbookName = domAttr.get(buttonDelete, "data-name");
+
+					var confirm = window.confirm("Do you want delete " + guestbookName);
+
+					if (confirm == true) {
+						var store = new GreetingStore(guestbookName, null, greetingId);
+
+						store.deleteGreeting().then(function() {
+							lang.hitch(this, function () {
+								this.destroy();
+							});
+						});
+					}else {
+						return false;
+					}
+				}),
+
+				on(buttonEdit, 'click', function () {
+					domStyle.set(formEdit, "display", "block");
+				}),
+
+				on(buttonCancelEdit, 'click', function () {
+					domStyle.set(formEdit, "display", "none");
 				})
 			)
 		}

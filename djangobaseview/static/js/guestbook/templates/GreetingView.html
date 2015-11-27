@@ -23,8 +23,8 @@
 		<tr>
 			<td></td>
 			<td>
-				<button data-dojo-attach-event="click: _deleteGreeting" data-dojo-attach-point="deleteGreeting">Delete</button>
-				<button data-dojo-attach-event="click: _editGreeting" data-dojo-attach-point="editGreeting">Edit</button>
+				<button data-dojo-attach-point="deleteGreeting" data-value="${greetingId}" data-name="${guestbookName}">Delete</button>
+				<button data-dojo-attach-point="editGreeting">Edit</button>
 			</td>
 		</tr>
 	</table>
@@ -33,7 +33,7 @@
 		<input type="hidden" value="${guestbookName}" data-dojo-attach-point="editGuestbookName"/><br/>
 		<textarea data-dojo-attach-point="editGuestbookContent">${content}</textarea><br/>
 		<button type="submit">Save</button>
-		<button type="button" data-dojo-attach-event="click: _cancelEdit">Cancel</button>
+		<button type="button" data-dojo-attach-point="cancelEdit">Cancel</button>
 	</form>
 	<hr/>
 </div>
