@@ -66,7 +66,7 @@ define([
 
 			var handle = topic.subscribe("update/topic", function(e){
 				guestbookView.loadGreetings(e.param);
-				handle.remove();
+				//handle.remove();
 			});
 		}
 	});
