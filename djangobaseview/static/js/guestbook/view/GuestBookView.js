@@ -18,8 +18,32 @@ define([
 	return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
 		templateString: template,
 
+		loadGreetings: function(guestbookName) {
+			var store = new GreetingStore(guestbookName, null, null);
+			store.getGreetings().then(function(data) {
+				var list = JSON.parse(data).greetings;
+				var listContainer = dom.byId('listGuestbookContainer');
+
+				if(listContainer.childNodes.length > 0){
+					listContainer.innerHTML = '';
+				}
+
+				var _newDocFrag = document.createDocumentFragment();
+				array.forEach(list, function (guestbook) {
+					var greetingView = new GreetingView(guestbook);
+
+					greetingView.placeAt(_newDocFrag);
+				});
+				domConstruct.place(_newDocFrag, listContainer);
+			});
+		},
+
 		postCreate: function () {
 			this.inherited(arguments);
+
+			var guestbookView = this;
+
+			guestbookView.loadGreetings("default_guestbook");
 
 			var guestbookNameNode = this.guestbookNameNode;
 			var guestbookMessageNode = this.guestbookMessageNode;
@@ -34,22 +58,7 @@ define([
 					var store = new GreetingStore(guestbookName, guestbookMessage, null);
 
 					store.addGuestbook().then(function() {
-						store.getGreetings().then(function(data) {
-							var list = JSON.parse(data).greetings;
-							var listContainer = dom.byId('listGuestbookContainer');
-
-							if(listContainer.childNodes.length > 0){
-								listContainer.innerHTML = '';
-							}
-
-							var _newDocFrag = document.createDocumentFragment();
-							array.forEach(list, function (guestbook) {
-								var greetingView = new GreetingView(guestbook);
-
-								greetingView.placeAt(_newDocFrag);
-							});
-							domConstruct.place(_newDocFrag, listContainer);
-						});
+						guestbookView.loadGreetings(guestbookName);
 					});
 				})
 			);
