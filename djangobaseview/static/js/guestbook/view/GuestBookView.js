@@ -26,9 +26,7 @@ define([
 				var list = JSON.parse(data).greetings;
 				var listContainer = dom.byId('listGuestbookContainer');
 
-				if(listContainer.childNodes.length > 0){
-					listContainer.innerHTML = '';
-				}
+				domConstruct.empty(listContainer);
 
 				var _newDocFrag = document.createDocumentFragment();
 				array.forEach(list, function (guestbook) {
