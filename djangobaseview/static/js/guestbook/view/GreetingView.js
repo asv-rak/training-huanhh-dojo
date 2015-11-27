@@ -1,12 +1,12 @@
 define([
+	"dojo/_base/declare",
 	"dojo/dom",
 	"dojo/on",
 	"dojo/dom-construct",
-	"dojo/_base/declare",
+	"dojo/text!../templates/GreetingView.html",
 	"./_ViewBaseMixin",
-	"../store/GreetingStore",
-	"dojo/text!../templates/GreetingView.html"
-], function (dom, on, domConstruct, declare, _ViewBaseMixin, GreetingStore, template) {
+	"../store/GreetingStore"
+], function (declare, dom, on, domConstruct, template, _ViewBaseMixin, GreetingStore) {
 
 	return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
 		templateString: template,

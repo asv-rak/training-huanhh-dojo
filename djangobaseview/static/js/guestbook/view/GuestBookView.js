@@ -1,20 +1,20 @@
 define([
+	"dojo/_base/declare",
+	"dojo/_base/array",
 	"dojo/dom",
 	"dojo/on",
 	"dojo/dom-construct",
 	"dojo/request",
 	"dojo/cookie",
-	"dojo/_base/declare",
-	"dojo/_base/array",
+	"dojo/text!../templates/GuestBookView.html",
 	"./_ViewBaseMixin",
 	"../store/GreetingStore",
 	"../view/GreetingView",
-	"dojo/text!../templates/GuestBookView.html",
 	"dijit/form/Form",
 	"dijit/form/TextBox",
 	"dijit/form/Textarea",
-	"dijit/form/Button",
-], function (dom, on, domConstruct, request, cookie, declare, array, _ViewBaseMixin, GreetingStore, GreetingView, template) {
+	"dijit/form/Button"
+], function (declare, array, dom, on, domConstruct, request, cookie, template, _ViewBaseMixin, GreetingStore, GreetingView) {
 	return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
 		templateString: template,
 

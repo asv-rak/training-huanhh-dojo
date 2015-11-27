@@ -1,8 +1,8 @@
 define([
-	"dojo/request",
-	"dojo/cookie",
 	"dojo/_base/declare",
-], function(request, cookie, declare) {
+	"dojo/request",
+	"dojo/cookie"
+], function(declare, request, cookie) {
 	return declare(null, {
 		constructor: function(guestbookName, guestbookMessage, greetingId) {
 			this.greetingId = greetingId;
