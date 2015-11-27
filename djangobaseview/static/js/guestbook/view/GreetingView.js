@@ -3,10 +3,11 @@ define([
 	"dojo/dom",
 	"dojo/on",
 	"dojo/dom-construct",
+	"dojo/dom-style",
 	"dojo/text!../templates/GreetingView.html",
 	"./_ViewBaseMixin",
 	"../store/GreetingStore"
-], function (declare, dom, on, domConstruct, template, _ViewBaseMixin, GreetingStore) {
+], function (declare, dom, on, domConstruct, domStyle, template, _ViewBaseMixin, GreetingStore) {
 
 	return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
 		templateString: template,
@@ -40,8 +41,8 @@ define([
 			var username = dom.byId('username').value;
 
 			if(isAdmin.toLowerCase() !== 'true' && username !== this.updatedBy){
-				this.deleteGreeting.setAttribute('style', 'display: none');
-				this.editGreeting.setAttribute('style', 'display: none');
+				domStyle.set(this.deleteGreeting, "display", "none");
+				domStyle.set(this.editGreeting, "display", "none");
 			}
 		}
 	});
