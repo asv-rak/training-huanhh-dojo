@@ -27,7 +27,7 @@ define([
 
 		postCreate: function () {
 			this.inherited(arguments);
-			console.log(this.greetingId);
+
 			if (dom.byId('role').value.toLowerCase() !== 'true') {
 				if (dom.byId('username').value == this.updatedBy) {
 					domConstructor.destroy(this.deleteGreeting);
@@ -54,10 +54,12 @@ define([
 
 					if (confirm == true) {
 						var store = new GreetingStore(this.guestbookName, null, this.greetingId);
-						store.deleteGreeting().response.then(lang.hitch(this, function (response) {
-							alert(response.status);
-							this.destroy();
-						}));
+						store.deleteGreeting().then(lang.hitch(this, function () {
+								this.destroy();
+							}),
+							function (status) {
+								alert(status.message);
+							});
 					}else {
 						return false;
 					}
