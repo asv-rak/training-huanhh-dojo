@@ -53,8 +53,11 @@ define([
 					var store = new GreetingStore(this.guestbookNameNode.value, this.guestbookMessageNode.value, null);
 
 					store.addGuestbook().then(lang.hitch(this, function() {
-						this.loadGreetings(this.guestbookNameNode.value);
-					}));
+							this.loadGreetings(this.guestbookNameNode.value);
+						}),
+						function (status) {
+							alert(status.message);
+						});
 				})),
 
 				on(this.switchForm, "submit", lang.hitch(this, function (e) {

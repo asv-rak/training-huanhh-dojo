@@ -45,8 +45,11 @@ define([
 					var store = new GreetingStore(this.guestbookName, this.editGuestbookContent.value, this.greetingId);
 
 					store.updateGreeting().then(lang.hitch(this, function () {
-						topic.publish('guestbook/view/GreetingView/update', { param: this.guestbookName });
-					}));
+							topic.publish('guestbook/view/GreetingView/update', { param: this.guestbookName });
+						}),
+						function (status) {
+							alert(status.message);
+						});
 				})),
 
 				on(this.deleteGreeting, 'click', lang.hitch(this, function () {
