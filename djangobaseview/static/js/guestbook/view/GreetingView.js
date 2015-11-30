@@ -39,10 +39,14 @@ define([
 			var formEdit = this.formEditGreeting;
 			var buttonCancelEdit = this.cancelEdit;
 
-			if (isAdmin.toLowerCase() !== 'true' && username !== this.updatedBy) {
-				domConstructor.destroy(buttonDelete);
-				domConstructor.destroy(buttonEdit);
-				domConstructor.destroy(formEdit);
+			if (isAdmin.toLowerCase() !== 'true') {
+				if (username == this.updatedBy) {
+					domConstructor.destroy(buttonDelete);
+				} else {
+					domConstructor.destroy(buttonDelete);
+					domConstructor.destroy(buttonEdit);
+					domConstructor.destroy(formEdit);
+				}
 			}
 
 			this.own(
