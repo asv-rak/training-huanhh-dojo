@@ -77,24 +77,28 @@ class Greeting(ndb.Model):
 	@classmethod
 	def delete_greeting(cls, guestbook_name, greeting_id):
 		greeting_key = cls.get_key_by_id(guestbook_name,greeting_id)
-		delete_greeting = greeting_key.delete()
+		greeting = greeting_key.get()
+		if greeting is None: return False
+		greeting_key.delete()
 		memcache.flush_all()
-		return delete_greeting
+		return True
 
 	@classmethod
 	def get_greeting_with_cursor(cls, url_safe, guestbook_name, count=20):
 		start_cursor = Cursor(urlsafe=url_safe)
 		greetings, next_cursor, is_more = cls.query(ancestor=Guestbook.get_key_guestbook(guestbook_name)).order(-cls.date).fetch_page(count, start_cursor=start_cursor)
-		return greetings, next_cursor, is_more
+		greeting_json = cls.greeting_to_arraydict(greetings,guestbook_name)
+		return greeting_json, next_cursor, is_more
 
 
 	@classmethod
-	def greeting_to_dict(cls, url_safe, guestbook_name, count=20):
-		greetings, next_cursor, is_more = cls.get_greeting_with_cursor(url_safe,guestbook_name,count)
+	def greeting_to_arraydict(cls, greetings, guestbook_name):
+		# greetings, next_cursor, is_more = cls.get_greeting_with_cursor(url_safe,guestbook_name,count)
 		greeting_json = []
 		for greeting in greetings:
 			greeting_json.append(cls.to_dict(greeting, guestbook_name))
-		return greeting_json, next_cursor, is_more
+		return greeting_json
+
 
 
 	@classmethod
@@ -103,9 +107,11 @@ class Greeting(ndb.Model):
 			"greeting_id": greeting.key.id(),
 			"content": greeting.content,
 			"date": str(greeting.date),
-			"updated_by": str(greeting.author),
+			"updated_by": str(greeting.author) if greeting.author != None else "",
 			"updated_date": str(greeting.update_date),
 			"guestbook_name": guestbook_name,
+			'is_admin': users.is_current_user_admin(),
+			'user_info': str(users.get_current_user()),
 		}
 		return data;
 
