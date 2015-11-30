@@ -26,11 +26,11 @@
 	</div>
 	<hr/>
 	<div class="switchGuest">
-		<div data-dojo-type="dijit/form/Form" action="" method="">
+		<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="switchForm" action="" method="">
 			<table>
 				<tr>
 					<td>Guestbook name</td>
-					<td><input type="text" id="guestbook_name" name="guestbook_name"
+					<td><input type="text" data-dojo-attach-point="guestbookNameSwitch"
 					           required="true" placeholder="Guestbook name"/></td>
 				</tr>
 				<tr>

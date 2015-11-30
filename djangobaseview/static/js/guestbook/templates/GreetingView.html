@@ -23,14 +23,12 @@
 		<tr>
 			<td></td>
 			<td>
-				<button data-dojo-attach-point="deleteGreeting" data-value="${greetingId}" data-name="${guestbookName}">Delete</button>
+				<button data-dojo-attach-point="deleteGreeting">Delete</button>
 				<button data-dojo-attach-point="editGreeting">Edit</button>
 			</td>
 		</tr>
 	</table>
 	<form data-dojo-attach-point="formEditGreeting" style="display:none">
-		<input type="hidden" value="${greetingId}" data-dojo-attach-point="editGreetingId" />
-		<input type="hidden" value="${guestbookName}" data-dojo-attach-point="editGuestbookName"/><br/>
 		<textarea data-dojo-attach-point="editGuestbookContent">${content}</textarea><br/>
 		<button type="submit">Save</button>
 		<button type="button" data-dojo-attach-point="cancelEdit">Cancel</button>

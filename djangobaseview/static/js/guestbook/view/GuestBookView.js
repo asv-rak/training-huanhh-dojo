@@ -1,6 +1,7 @@
 define([
 	"dojo/_base/declare",
 	"dojo/_base/array",
+	"dojo/_base/lang",
 	"dojo/dom",
 	"dojo/on",
 	"dojo/dom-construct",
@@ -16,7 +17,7 @@ define([
 	"dijit/form/TextBox",
 	"dijit/form/Textarea",
 	"dijit/form/Button"
-], function (declare, array, dom, on, domConstruct, topic, request, cookie, template,
+], function (declare, array, lang, dom, on, domConstruct, topic, request, cookie, template,
              _ViewBaseMixin, GreetingStore, GreetingView) {
 	return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
 		templateString: template,
@@ -43,30 +44,27 @@ define([
 		postCreate: function () {
 			this.inherited(arguments);
 
-			var guestbookView = this;
-
-			guestbookView.loadGreetings("default_guestbook");
-
-			var guestbookNameNode = this.guestbookNameNode;
-			var guestbookMessageNode = this.guestbookMessageNode;
-			var form = this.signForm;
+			this.loadGreetings("default_guestbook");
 
 			// add guestbook api
 			this.own(
-				on(form, "submit", function (e) {
+				on(this.signForm, "submit", lang.hitch(this, function (e) {
 					e.preventDefault();
-					var guestbookName = guestbookNameNode.value;
-					var guestbookMessage = guestbookMessageNode.value;
-					var store = new GreetingStore(guestbookName, guestbookMessage, null);
+					var store = new GreetingStore(this.guestbookNameNode.value, this.guestbookMessageNode.value, null);
 
-					store.addGuestbook().then(function() {
-						guestbookView.loadGreetings(guestbookName);
-					});
-				}),
+					store.addGuestbook().then(lang.hitch(this, function() {
+						this.loadGreetings(this.guestbookNameNode.value);
+					}));
+				})),
 
-				topic.subscribe("guestbook/view/GreetingView/update", function(e){
-					guestbookView.loadGreetings(e.param);
-				})
+				on(this.switchForm, "submit", lang.hitch(this, function (e) {
+					e.preventDefault();
+					this.loadGreetings(this.guestbookNameSwitch.value);
+				})),
+
+				topic.subscribe("guestbook/view/GreetingView/update", lang.hitch(this, function(e){
+					this.loadGreetings(e.param);
+				}))
 			);
 		}
 	});

@@ -9,9 +9,11 @@ define([
 	"dojo/topic",
 	"dojo/text!../templates/GreetingView.html",
 	"./_ViewBaseMixin",
-	"../store/GreetingStore"
+	"../store/GreetingStore",
+	// Read only
+	"dijit/form/Button"
 ], function (declare, lang, dom, on, domConstructor, domStyle, domAttr, topic, template,
-             _ViewBaseMixin, GreetingStore) {
+             _ViewBaseMixin, GreetingStore, Button) {
 
 	return declare("guestbook.view.GreetingView", [_ViewBaseMixin], {
 		templateString: template,
@@ -28,65 +30,55 @@ define([
 		postCreate: function () {
 			this.inherited(arguments);
 
-			var greetingView = this;
-			var isAdmin = dom.byId('role').value;
-			var username = dom.byId('username').value;
 			var guestbookNameNode = this.editGuestbookName;
 			var guestbookMessageNode = this.editGuestbookContent;
 			var greetingIdNode = this.editGreetingId;
-			var buttonDelete = this.deleteGreeting;
 			var buttonEdit = this.editGreeting;
 			var formEdit = this.formEditGreeting;
 			var buttonCancelEdit = this.cancelEdit;
 
-			if (isAdmin.toLowerCase() !== 'true') {
-				if (username == this.updatedBy) {
-					domConstructor.destroy(buttonDelete);
+			if (dom.byId('role').value.toLowerCase() !== 'true') {
+				if (dom.byId('username').value == this.updatedBy) {
+					domConstructor.destroy(this.deleteGreeting);
 				} else {
-					domConstructor.destroy(buttonDelete);
-					domConstructor.destroy(buttonEdit);
-					domConstructor.destroy(formEdit);
+					domConstructor.destroy(this.deleteGreeting);
+					domConstructor.destroy(this.editGreeting);
+					domConstructor.destroy(this.formEditGreeting);
 				}
 			}
 
 			this.own(
-				on(this.formEditGreeting, 'submit', function (e) {
+				on(this.formEditGreeting, 'submit', lang.hitch(this, function (e) {
 					e.preventDefault();
-					var guestbookName = guestbookNameNode.value;
 					var guestbookMessage = guestbookMessageNode.value;
-					var greetingId = greetingIdNode.value;
 
-					var store = new GreetingStore(guestbookName, guestbookMessage, greetingId);
+					var store = new GreetingStore(this.guestbookName, guestbookMessage, this.greetingId);
 
-					store.updateGreeting().then(function () {
-						topic.publish('guestbook/view/GreetingView/update', { param: guestbookName });
-					});
-				}),
+					store.updateGreeting().then(lang.hitch(this, function () {
+						topic.publish('guestbook/view/GreetingView/update', { param: this.guestbookName });
+					}));
+				})),
 
-				on(buttonDelete, 'click', function () {
-					var greetingId = domAttr.get(buttonDelete, "data-value");
-					var guestbookName = domAttr.get(buttonDelete, "data-name");
-
-					var confirm = window.confirm("Do you want delete " + guestbookName);
+				on(this.deleteGreeting, 'click', lang.hitch(this, function () {
+					var confirm = window.confirm("Do you want delete " + this.guestbookName);
 
 					if (confirm == true) {
-						var store = new GreetingStore(guestbookName, null, greetingId);
-
-						store.deleteGreeting().then(function() {
-							lang.hitch(greetingView, greetingView.destroy());
-						});
+						var store = new GreetingStore(this.guestbookName, null, this.greetingId);
+						store.deleteGreeting().then(lang.hitch(this, function () {
+							this.destroy();
+						}));
 					}else {
 						return false;
 					}
-				}),
+				})),
 
-				on(buttonEdit, 'click', function () {
-					domStyle.set(formEdit, "display", "block");
-				}),
+				on(this.editGreeting, 'click', lang.hitch(this, function () {
+					domStyle.set(this.formEditGreeting, "display", "block");
+				})),
 
-				on(buttonCancelEdit, 'click', function () {
-					domStyle.set(formEdit, "display", "none");
-				})
+				on(this.cancelEdit, 'click', lang.hitch(this, function () {
+					domStyle.set(this.formEditGreeting, "display", "none");
+				}))
 			)
 		}
 	});
