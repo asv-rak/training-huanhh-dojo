@@ -9,9 +9,7 @@ define([
 	"dojo/topic",
 	"dojo/text!../templates/GreetingView.html",
 	"./_ViewBaseMixin",
-	"../store/GreetingStore",
-	// Read only
-	"dijit/form/Button"
+	"../store/GreetingStore"
 ], function (declare, lang, dom, on, domConstructor, domStyle, domAttr, topic, template,
              _ViewBaseMixin, GreetingStore, Button) {
 
