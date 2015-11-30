@@ -62,13 +62,12 @@ define([
 					store.addGuestbook().then(function() {
 						guestbookView.loadGreetings(guestbookName);
 					});
+				}),
+
+				topic.subscribe("update/topic", function(e){
+					guestbookView.loadGreetings(e.param);
 				})
 			);
-
-			var handle = topic.subscribe("update/topic", function(e){
-				guestbookView.loadGreetings(e.param);
-				//handle.remove();
-			});
 		}
 	});
 
