@@ -11,6 +11,7 @@ define([
 	"./_ViewBaseMixin",
 	"../store/GreetingStore",
 	"../view/GreetingView",
+	// Read only
 	"dijit/form/Form",
 	"dijit/form/TextBox",
 	"dijit/form/Textarea",
