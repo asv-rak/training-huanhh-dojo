@@ -64,7 +64,7 @@ define([
 					});
 				}),
 
-				topic.subscribe("update/topic", function(e){
+				topic.subscribe("guestbook/view/GreetingView/update", function(e){
 					guestbookView.loadGreetings(e.param);
 				})
 			);

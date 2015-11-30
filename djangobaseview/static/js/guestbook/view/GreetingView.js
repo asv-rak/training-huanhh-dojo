@@ -59,7 +59,7 @@ define([
 					var store = new GreetingStore(guestbookName, guestbookMessage, greetingId);
 
 					store.updateGreeting().then(function () {
-						topic.publish('update/topic', { param: guestbookName });
+						topic.publish('guestbook/view/GreetingView/update', { param: guestbookName });
 					});
 				}),
 
