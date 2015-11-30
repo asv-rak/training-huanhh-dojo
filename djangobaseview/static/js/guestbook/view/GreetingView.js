@@ -30,13 +30,6 @@ define([
 		postCreate: function () {
 			this.inherited(arguments);
 
-			var guestbookNameNode = this.editGuestbookName;
-			var guestbookMessageNode = this.editGuestbookContent;
-			var greetingIdNode = this.editGreetingId;
-			var buttonEdit = this.editGreeting;
-			var formEdit = this.formEditGreeting;
-			var buttonCancelEdit = this.cancelEdit;
-
 			if (dom.byId('role').value.toLowerCase() !== 'true') {
 				if (dom.byId('username').value == this.updatedBy) {
 					domConstructor.destroy(this.deleteGreeting);
@@ -50,9 +43,8 @@ define([
 			this.own(
 				on(this.formEditGreeting, 'submit', lang.hitch(this, function (e) {
 					e.preventDefault();
-					var guestbookMessage = guestbookMessageNode.value;
 
-					var store = new GreetingStore(this.guestbookName, guestbookMessage, this.greetingId);
+					var store = new GreetingStore(this.guestbookName, this.editGuestbookContent.value, this.greetingId);
 
 					store.updateGreeting().then(lang.hitch(this, function () {
 						topic.publish('guestbook/view/GreetingView/update', { param: this.guestbookName });
