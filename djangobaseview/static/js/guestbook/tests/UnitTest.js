@@ -78,7 +78,31 @@ define([
 			tearDown: function() {
 				this.server.restore();
 			}
-		}
+		},
+		{
+			name: "Add message over 10 character",
+			setUp: function() {
+				var fakeSuccessData = [{ "guestbook_name": "new_book"}, {"guestbook_message": "12345678 91011121314151617181920 21 22"}];
+				this.server = sinon.fakeServer.create();
+				this.server.respondWith("POST", "/api/guestbook/new_book/greeting/",
+					[400, {"Content-Type": "application/json"}, JSON.stringify(fakeSuccessData)]);
+			},
+			runTest: function() {
+				var dohDeferred = new doh.Deferred();
+				var greetingStore = new GreetingStore();
+				greetingStore.addGuestbook("new_book", "12345678 91011121314151617181920 21 22").then(dohDeferred.getTestCallback(function (result) {
+					doh.assertEqual(JSON.stringify([{ "guestbook_name": "new_book"}, {"guestbook_message": "12345678 91011121314151617181920 21 22"}]), result);
+				}), dohDeferred.getTestCallback(function (error) {
+					doh.assertEqual(400, error.response.status);
+				}));
+				this.server.respond();
+
+				return dohDeferred;
+			},
+			tearDown: function() {
+				this.server.restore();
+			}
+		},
 		// ...
 	]);
 
