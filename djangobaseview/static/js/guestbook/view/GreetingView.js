@@ -22,14 +22,15 @@ define([
 			this.guestbookName = guestbook.guestbook_name;
 			this.content = guestbook.content;
 			this.updatedBy = guestbook.updated_by;
+			this.isAdmin = guestbook.is_admin;
 			this.updatedDate = guestbook.updated_date;
 		},
 
 		postCreate: function () {
 			this.inherited(arguments);
 
-			if (dom.byId('role').value.toLowerCase() !== 'true') {
-				if (dom.byId('username').value == this.updatedBy) {
+			if (!this.isAdmin) {
+				if (dom.byId('username').value == this.updatedBy && dom.byId('username').value != '') {
 					domConstructor.destroy(this.deleteGreeting);
 				} else {
 					domConstructor.destroy(this.deleteGreeting);
@@ -38,13 +39,12 @@ define([
 				}
 			}
 
+			var store = new GreetingStore();
 			this.own(
 				on(this.formEditGreeting, 'submit', lang.hitch(this, function (e) {
 					e.preventDefault();
 
-					var store = new GreetingStore(this.guestbookName, this.editGuestbookContent.value, this.greetingId);
-
-					store.updateGreeting().then(lang.hitch(this, function () {
+					store.updateGreeting(this.guestbookName, this.editGuestbookContent.value, this.greetingId).then(lang.hitch(this, function () {
 							topic.publish('guestbook/view/GreetingView/update', { param: this.guestbookName });
 						}),
 						function (status) {
@@ -56,8 +56,7 @@ define([
 					var confirm = window.confirm("Do you want delete " + this.guestbookName);
 
 					if (confirm == true) {
-						var store = new GreetingStore(this.guestbookName, null, this.greetingId);
-						store.deleteGreeting().then(lang.hitch(this, function () {
+						store.deleteGreeting(this.guestbookName, this.greetingId).then(lang.hitch(this, function () {
 								this.destroy();
 							}),
 							function (status) {

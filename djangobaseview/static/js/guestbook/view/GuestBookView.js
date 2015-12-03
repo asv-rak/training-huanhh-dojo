@@ -23,8 +23,8 @@ define([
 		templateString: template,
 
 		loadGreetings: function (guestbookName) {
-			var store = new GreetingStore(guestbookName, null, null);
-			store.getGreetings().then(function(data) {
+			var store = new GreetingStore();
+			store.getGreetings(guestbookName).then(function(data) {
 				var list = JSON.parse(data).greetings;
 				var listContainer = dom.byId('listGuestbookContainer');
 
@@ -50,9 +50,9 @@ define([
 			this.own(
 				on(this.signForm, "submit", lang.hitch(this, function (e) {
 					e.preventDefault();
-					var store = new GreetingStore(this.guestbookNameNode.value, this.guestbookMessageNode.value, null);
+					var store = new GreetingStore();
 
-					store.addGuestbook().then(lang.hitch(this, function() {
+					store.addGuestbook(this.guestbookNameNode.value, this.guestbookMessageNode.value).then(lang.hitch(this, function() {
 							this.loadGreetings(this.guestbookNameNode.value);
 						}),
 						function (status) {
