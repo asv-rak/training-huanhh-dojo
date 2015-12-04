@@ -67,7 +67,8 @@ define([
 				var dohDeferred = new doh.Deferred();
 				var greetingStore = new GreetingStore();
 				greetingStore.deleteGreeting("new_book", 1234567).then(dohDeferred.getTestCallback(function (result) {
-					doh.assertEqual(JSON.stringify([{ "guestbook_name": "new_book"}, {"guestbook_message": "Unit test"}, {"greeting_id": 1234567}]), result);
+					doh.assertEqual(JSON.stringify([{ "guestbook_name": "new_book"}, {"guestbook_message": "Unit test"},
+						{"greeting_id": 1234567}]), result);
 				}), dohDeferred.getTestCallback(function (error) {
 					console.log(error);
 				}));
@@ -90,7 +91,8 @@ define([
 			runTest: function() {
 				var dohDeferred = new doh.Deferred();
 				var greetingStore = new GreetingStore();
-				greetingStore.addGuestbook("new_book", "12345678 91011121314151617181920 21 22").then(dohDeferred.getTestCallback(function (result) {
+				greetingStore.addGuestbook("new_book", "12345678 91011121314151617181920 21 22")
+					.then(dohDeferred.getTestCallback(function (result) {
 				}), dohDeferred.getTestCallback(function (error) {
 					doh.assertEqual(400, error.response.status);
 				}));

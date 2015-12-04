@@ -44,7 +44,8 @@ define([
 				on(this.formEditGreeting, 'submit', lang.hitch(this, function (e) {
 					e.preventDefault();
 
-					store.updateGreeting(this.guestbookName, this.editGuestbookContent.value, this.greetingId).then(lang.hitch(this, function () {
+					store.updateGreeting(this.guestbookName, this.editGuestbookContent.value, this.greetingId)
+						.then(lang.hitch(this, function () {
 							topic.publish('guestbook/view/GreetingView/update', { param: this.guestbookName });
 						}),
 						function (status) {
