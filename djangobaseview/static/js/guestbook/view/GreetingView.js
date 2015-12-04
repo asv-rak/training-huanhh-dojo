@@ -26,8 +26,13 @@ define([
 			this.updatedDate = guestbook.updated_date;
 		},
 
+		initGreetingStore: function() {
+			this.greetingStore = new GreetingStore();
+		},
+
 		postCreate: function () {
 			this.inherited(arguments);
+			this.initGreetingStore();
 
 			if (!this.isAdmin) {
 				if (dom.byId('username').value == this.updatedBy && dom.byId('username').value != '') {
@@ -39,12 +44,11 @@ define([
 				}
 			}
 
-			var store = new GreetingStore();
 			this.own(
 				on(this.formEditGreeting, 'submit', lang.hitch(this, function (e) {
 					e.preventDefault();
 
-					store.updateGreeting(this.guestbookName, this.editGuestbookContent.value, this.greetingId)
+					this.greetingStore.updateGreeting(this.guestbookName, this.editGuestbookContent.value, this.greetingId)
 						.then(lang.hitch(this, function () {
 							topic.publish('guestbook/view/GreetingView/update', { param: this.guestbookName });
 						}),
@@ -57,7 +61,7 @@ define([
 					var confirm = window.confirm("Do you want delete " + this.guestbookName);
 
 					if (confirm == true) {
-						store.deleteGreeting(this.guestbookName, this.greetingId).then(lang.hitch(this, function () {
+						this.greetingStore.deleteGreeting(this.guestbookName, this.greetingId).then(lang.hitch(this, function () {
 								this.destroy();
 							}),
 							function (status) {

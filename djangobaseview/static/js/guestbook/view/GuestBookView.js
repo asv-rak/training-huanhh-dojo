@@ -19,12 +19,16 @@ define([
 	"dijit/form/Button"
 ], function (declare, array, lang, dom, on, domConstruct, topic, request, cookie, template,
              _ViewBaseMixin, GreetingStore, GreetingView) {
+
 	return declare("guestbook.view.GuestBookView", [_ViewBaseMixin], {
 		templateString: template,
 
+		initGreetingStore: function() {
+			this.greetingStore = new GreetingStore();
+		},
+
 		loadGreetings: function (guestbookName) {
-			var store = new GreetingStore();
-			store.getGreetings(guestbookName).then(function(data) {
+			this.greetingStore.getGreetings(guestbookName).then(function(data) {
 				var list = JSON.parse(data).greetings;
 				var listContainer = dom.byId('listGuestbookContainer');
 
@@ -43,16 +47,15 @@ define([
 
 		postCreate: function () {
 			this.inherited(arguments);
-
+			this.initGreetingStore();
 			this.loadGreetings("default_guestbook");
 
 			// add guestbook api
 			this.own(
 				on(this.signForm, "submit", lang.hitch(this, function (e) {
 					e.preventDefault();
-					var store = new GreetingStore();
 
-					store.addGuestbook(this.guestbookNameNode.value, this.guestbookMessageNode.value).then(lang.hitch(this, function() {
+					this.greetingStore.addGuestbook(this.guestbookNameNode.value, this.guestbookMessageNode.value).then(lang.hitch(this, function() {
 							this.loadGreetings(this.guestbookNameNode.value);
 						}),
 						function (status) {
