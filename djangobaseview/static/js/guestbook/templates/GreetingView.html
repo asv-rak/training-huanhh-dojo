@@ -1,0 +1,37 @@
+<div>
+	<table>
+		<tr>
+			<td>Create date</td>
+			<td>${createDate}</td>
+		</tr>
+		<tr>
+			<td>Guestbook name</td>
+			<td>${guestbookName}<td>
+		</tr>
+		<tr>
+			<td>Content</td>
+			<td>${content}</td>
+		</tr>
+		<tr>
+			<td>Updated date</td>
+			<td>${updatedDate}</td>
+		</tr>
+		<tr>
+			<td>Updated by</td>
+			<td>${updatedBy}</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<button data-dojo-attach-point="deleteGreeting">Delete</button>
+				<button data-dojo-attach-point="editGreeting">Edit</button>
+			</td>
+		</tr>
+	</table>
+	<form data-dojo-attach-point="formEditGreeting" style="display:none">
+		<textarea data-dojo-attach-point="editGuestbookContent">${content}</textarea><br/>
+		<button type="submit">Save</button>
+		<button type="button" data-dojo-attach-point="cancelEdit">Cancel</button>
+	</form>
+	<hr/>
+</div>
