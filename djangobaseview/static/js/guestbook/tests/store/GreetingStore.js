@@ -1,8 +1,8 @@
 define([
-	"dojo/json",
+	"../../../dojo/dojo/json",
 	"doh/runner",
 	"/static/js/sinon/sinon.js",
-	"../store/GreetingStore"
+	"../../store/GreetingStore"
 ], function(JSON, doh, sinon, GreetingStore) {
 
 	doh.register("GreetingStore", [
