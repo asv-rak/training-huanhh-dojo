@@ -1,5 +1,5 @@
 define([
-	"../../../dojo/dojo/json",
+	"dojo/json",
 	"doh/runner",
 	"/static/js/sinon/sinon.js",
 	"../../store/GreetingStore"
